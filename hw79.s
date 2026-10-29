@@ -1,18 +1,64 @@
 .text
 
+# %rdi
+# %rsi
+# %rdx
+# %rcx
+# %r8
+# %r9
+
     .globl relation_code
     .type relation_code, @function
 relation_code:
-    # TODO: Problem 1
+    # DONE: Problem 1
+    # %rdi  x
+    # %rsi  y
+
     movq $0, %rax
-    ret
+    cmpq %rsi, %rdi
+
+    jl p1_i_less
+    jb p1_u_less
+
+    p1_return:
+        ret
+
+    p1_i_less:
+        addq $1, %rax
+        cmpq %rsi, %rdi
+        jb p1_u_less
+        jmp p1_return
+
+    p1_u_less:
+        addq $2, %rax
+        jmp p1_return
+
 
     .globl clamp_long
     .type clamp_long, @function
 clamp_long:
-    # TODO: Problem 2
-    movq $0, %rax
+    # DONE: Problem 2
+    # %rdi  x
+    # %rsi  low
+    # %rdx  high
+
+    cmpq %rsi, %rdi
+    jl p2_low
+
+    cmpq %rdx, %rdi
+    jg p2_high
+
+    movq %rdi, %rax
     ret
+
+    p2_low:
+        movq %rsi, %rax
+        ret
+
+    p2_high:
+        movq %rdx, %rax
+        ret
+
 
     .globl weighted_sum8
     .type weighted_sum8, @function
