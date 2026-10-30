@@ -108,9 +108,30 @@ weighted_sum8:
     .globl alternating_sum
     .type alternating_sum, @function
 alternating_sum:
-    # TODO: Problem 4
+    # DONE: Problem 4
+    # %rdi = n
+    # %rsi = i (loop i = 1..n)
+
     movq $0, %rax
-    ret
+    movq $1, %rsi
+
+    p4_loop_plus_minus:
+        cmpq %rdi, %rsi
+        jg p4_return
+
+        addq %rsi, %rax
+
+        addq $1, %rsi
+        cmpq %rdi, %rsi
+        jg p4_return
+
+        subq %rsi, %rax
+
+        addq $1, %rsi
+        jmp p4_loop_plus_minus
+
+    p4_return:
+        ret
 
     .globl recursive_power
     .type recursive_power, @function
