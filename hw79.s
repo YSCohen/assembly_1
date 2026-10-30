@@ -133,12 +133,26 @@ alternating_sum:
     p4_return:
         ret
 
+
     .globl recursive_power
     .type recursive_power, @function
 recursive_power:
-    # TODO: Problem 5
-    movq $0, %rax
+    # DONE: Problem 5
+    # %rdi = base
+    # %rsi = exponent
+
+    cmpq $0, %rsi
+    je p5_eq
+    
+    subq $1, %rsi
+    call recursive_power 
+    imulq %rdi, %rax
     ret
+
+    p5_eq:
+        movq $1, %rax
+        ret
+
 
     .globl combine_helpers
     .type combine_helpers, @function
