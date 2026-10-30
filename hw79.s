@@ -157,8 +157,24 @@ recursive_power:
     .globl combine_helpers
     .type combine_helpers, @function
 combine_helpers:
-    # TODO: Problem 6
-    movq $0, %rax
+    # DONE: Problem 6
+    # %rdi            = x
+    # %rsi = -8(%rbp) = y
+    # -16(%rbp)       = x^2
+
+    pushq %rbp
+    movq %rsp, %rbp
+
+    pushq %rsi
+
+    call helper_square
+    pushq %rax
+
+    movq -8(%rbp), %rdi
+    call helper_affine
+    addq -16(%rbp), %rax
+
+    leave
     ret
 
     .section .note.GNU-stack,"",@progbits
